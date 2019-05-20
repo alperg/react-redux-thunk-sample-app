@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import styled from 'styled-components';
+import { Box, Button, CheckBox } from 'grommet';
+import { Close } from 'grommet-icons';
 import { itemsFetchData, itemsRemoveItem } from '../actions/items';
 
 const Wrapper = styled.div`
   padding: 20px;
-  position: fixed;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
   margin: 40px;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -17,12 +15,8 @@ const Wrapper = styled.div`
 
 const ItemName = styled.span`
   display: inline-block;
-  width: 200px;
-  line-height: 40px;
-`;
-
-const Button = styled.button`
-  margin-left: 40px;
+  width: 240px;
+  height: 20px;
 `;
 
 class ItemList extends Component {
@@ -45,16 +39,20 @@ class ItemList extends Component {
 
     return (
       <Wrapper>
-        <ul>
-          {
-            this.props.items.map((item, index) => (
-              <li key={item.id}>
-                <ItemName>{item.name}</ItemName>
-                <Button className="remove" onClick={() => this.props.removeItem(index)}>Remove</Button>
-              </li>
-            ))
-          }
-        </ul>
+        <Box align='center' pad='large'>
+          <ul>
+            {
+              this.props.items.map((item, index) => (
+                <li key={item.id}>
+                  <ItemName>
+                    <CheckBox style={ { display: 'inline-block' } } checked={item.isFood} onChange={this.onChange} label={`${item.name} - is Food?`} toggle reverse/>
+                  </ItemName>
+                  <Button plain icon={<Close />} onClick={() => this.props.removeItem(index)}>Remove</Button>
+                </li>
+              ))
+            }
+          </ul>
+        </Box>
       </Wrapper>
     )
   }
